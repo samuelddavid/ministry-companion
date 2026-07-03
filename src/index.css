@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-teal-900 text-white font-sans;
+    overscroll-behavior: none;
+  }
+  :root {
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10;
+  }
+  .btn-primary {
+    @apply bg-teal-500 hover:bg-teal-400 active:bg-teal-600 text-white font-semibold rounded-xl px-5 py-3 transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-secondary {
+    @apply bg-white/10 hover:bg-white/20 active:bg-white/5 text-white font-medium rounded-xl px-5 py-3 transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 border border-white/20;
+  }
+  .btn-danger {
+    @apply bg-red-500/20 hover:bg-red-500/30 text-red-300 font-medium rounded-xl px-4 py-2 transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 border border-red-400/30;
+  }
+  .input-field {
+    @apply bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-teal-400 focus:ring-1 focus:ring-teal-400 w-full transition-all duration-150;
+  }
+  .nav-tab {
+    @apply flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-xl transition-all duration-150 cursor-pointer;
+  }
+  .nav-tab.active {
+    @apply bg-teal-500/20 text-teal-300;
+  }
+  .section-title {
+    @apply text-xs font-semibold uppercase tracking-widest text-white/40 mb-3;
+  }
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 9999px; }
+.pb-safe { padding-bottom: calc(4rem + var(--safe-bottom)); }
+
+/* Colour variety for cards */
+.card-blue { @apply bg-blue-500/10 border border-blue-400/20 rounded-2xl p-4; }
+.card-green { @apply bg-green-500/10 border border-green-400/20 rounded-2xl p-4; }
+.card-orange { @apply bg-orange-500/10 border border-orange-400/20 rounded-2xl p-4; }
+.card-purple { @apply bg-purple-500/10 border border-purple-400/20 rounded-2xl p-4; }
