@@ -1,16 +1,38 @@
-# React + Vite
+# Ministry Companion
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A mobile-first web app for Jehovah's Witnesses field service: log hours, keep territory maps, track return visits, and see the next meeting at a glance.
 
-Currently, two official plugins are available:
+**Live:** https://ministry-companion-7f836.web.app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- **Hours** — log minutes against a date, see today and month-to-date totals against a personal goal, and generate an S-4 field service report snapshot per month
+- **Territories** — territory cards, optionally populated by parsing an uploaded PDF in the browser
+- **Return visits** — contact cards with status (interested, not home, Bible study, do not call, new), optional location, and a reminder date
+- **Meetings** — a weekly schedule, with the next occurrence computed on the fly
+- **Export** — client-side PDF generation via jsPDF and html2canvas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech
 
-## Expanding the ESLint configuration
+React 19 + Vite, Tailwind CSS, Firebase (Auth, Firestore, Hosting). No backend or API layer: pages talk to Firestore directly, mostly through `onSnapshot` for real-time reads.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run dev       # dev server
+npm run build     # production build to dist/
+npm run lint
+./deploy.sh       # install + build + deploy to Firebase Hosting
+```
+
+## Privacy
+
+Every collection is scoped per user (`/{collection}/{userId}/...`) and locked in `firestore.rules` to `request.auth.uid == userId`. There is no sharing between accounts: your data is visible only to you.
+
+The Firebase web config in `src/firebase.js` is committed, which is normal for Firebase — the API key identifies the project rather than granting access. Access is controlled by the security rules, not by keeping the config secret.
+
+## Notes
+
+- Navigation is a `tab` string in `useState`, not a router — there are no URL routes, so the back button does not move between tabs. `react-router-dom` is a leftover dependency and is unused.
+- `BottomNav.jsx` is not rendered; `TopNav.jsx` is the live navigation.
+- Firestore rules deploy separately: `firebase deploy --only firestore:rules`.
+- No test suite.
